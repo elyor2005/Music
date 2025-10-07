@@ -44,7 +44,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     // envelope (simple saw shape)
     const env = 1 - (t % beat) / beat;
-    let sample = Math.sin(2 * Math.PI * freq * t) * env * 0.6;
+    const sample = Math.sin(2 * Math.PI * freq * t) * env * 0.6;
 
     // scale to int16
     const s = Math.max(-1, Math.min(1, sample));

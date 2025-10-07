@@ -1,14 +1,6 @@
 "use client";
 
-type Song = {
-  id: string;
-  title: string;
-  artist: string;
-  album: string;
-  likes: number;
-  preview: string;
-  lyrics: { time: number; text: string }[];
-};
+import { Song } from "@/types"; // ✅ import shared type
 
 export default function SongsGallery({ songs, setSongs }: { songs: Song[]; setSongs: React.Dispatch<React.SetStateAction<Song[]>> }) {
   return (

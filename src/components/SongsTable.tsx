@@ -3,17 +3,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useReactTable, getCoreRowModel, flexRender, ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
-type Song = {
-  id: string;
-  title: string;
-  artist: string;
-  album: string;
-  genre: string;
-  likes: number;
-  preview: string;
-  lyrics: { time: number; text: string }[];
-};
+import { Song } from "@/types";
+// type Song = {
+//   id: string;
+//   title: string;
+//   artist: string;
+//   album: string;
+//   genre: string;
+//   likes: number;
+//   preview: string;
+//   lyrics: { time: number; text: string }[];
+// };
 
 export default function SongsTable({ songs, setSongs, page, totalPages, onPageChange }: { songs: Song[]; setSongs: React.Dispatch<React.SetStateAction<Song[]>>; page: number; totalPages: number; onPageChange: (p: number) => void }) {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);

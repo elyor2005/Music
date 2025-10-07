@@ -1,8 +1,8 @@
-// /pages/api/songs.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import seedrandom from "seedrandom";
 
-const WORD_BANK = {
+// Word bank definition
+const WORD_BANK: Record<string, string[]> = {
   en: ["shining", "road", "echo", "dream", "river", "sky", "fire", "dance", "love", "endless"],
   de: ["glanz", "straße", "traum", "fluss", "himmel", "feuer", "tanz", "liebe", "ewig", "klang"],
 };
@@ -39,31 +39,30 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   res.json({ songs, page: Number(page), pageSize: Number(pageSize) });
 }
 
-function fakeTitle(rng: seedrandom.prng, lang: string) {
+function fakeTitle(rng: seedrandom.PRNG, lang: string) {
   const bank = WORD_BANK[lang] || WORD_BANK["en"];
   return `${pick(bank, rng)} ${pick(bank, rng)}`;
 }
 
-function fakeArtist(rng: seedrandom.prng, lang: string) {
+function fakeArtist(rng: seedrandom.PRNG, lang: string) {
   const bank = WORD_BANK[lang] || WORD_BANK["en"];
   return rng() < 0.5 ? `The ${pick(bank, rng)}s` : `${pick(bank, rng)} ${pick(bank, rng)}`;
 }
 
-function fakeGenre(rng: seedrandom.prng) {
+function fakeGenre(rng: seedrandom.PRNG) {
   const genres = ["Pop", "Rock", "Jazz", "Hip-Hop", "Classical"];
   return genres[Math.floor(rng() * genres.length)];
 }
 
-function pick(arr: string[], rng: seedrandom.prng) {
+function pick(arr: string[], rng: seedrandom.PRNG) {
   return arr[Math.floor(rng() * arr.length)];
 }
 
-// Auto-generate lyrics aligned with 3 lines
 function generateLyrics(seed: string, lang: string) {
   const rng = seedrandom(seed);
   const bank = WORD_BANK[lang] || WORD_BANK["en"];
-  const lines = [];
-  const lineDur = 5; // seconds
+  const lines: { time: number; text: string }[] = [];
+  const lineDur = 5; // seconds per line
   for (let i = 0; i < 3; i++) {
     const words = Array.from({ length: 4 }, () => pick(bank, rng)).join(" ");
     lines.push({ time: i * lineDur, text: words });

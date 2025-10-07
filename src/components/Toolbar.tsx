@@ -1,6 +1,7 @@
 "use client";
 
 type ToolbarProps = {
+  
   params: {
     seed: string;
     lang: string;
