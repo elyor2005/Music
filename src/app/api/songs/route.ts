@@ -1,6 +1,6 @@
 // /api/songs/route.ts
 import { NextResponse } from "next/server";
-import { Faker, en, ru, de, fr, base } from "@faker-js/faker";
+import { Faker, en, ru, base } from "@faker-js/faker";
 import seedrandom from "seedrandom";
 
 export async function GET(req: Request) {
@@ -20,12 +20,6 @@ export async function GET(req: Request) {
   switch (lang) {
     case "ru":
       locale = ru;
-      break;
-    case "de":
-      locale = de;
-      break;
-    case "fr":
-      locale = fr;
       break;
     default:
       locale = en;

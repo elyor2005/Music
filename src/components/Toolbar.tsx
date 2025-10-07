@@ -1,7 +1,6 @@
 "use client";
 
 type ToolbarProps = {
-  
   params: {
     seed: string;
     lang: string;
@@ -37,8 +36,7 @@ export default function Toolbar({ params, onChange }: ToolbarProps) {
         <label className="text-sm font-medium text-gray-700">Language</label>
         <select value={params.lang} onChange={(e) => onChange({ ...params, lang: e.target.value })} className="border rounded p-1 text-black">
           <option value="en">English (USA)</option>
-          <option value="de">Deutsch (Germany)</option>
-          <option value="uk">Українська (Ukraine)</option>
+          <option value="ru">Русский (Russia)</option>
         </select>
       </div>
 
