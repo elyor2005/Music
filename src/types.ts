@@ -1,5 +1,5 @@
 export type Song = {
-  id: string;
+  id: number;
   title: string;
   artist: string;
   album: string;
@@ -7,4 +7,7 @@ export type Song = {
   likes: number;
   preview: string;
   lyrics: { time: number; text: string }[];
+  coverUrl: string;
+  previewUrl: string;
+  createdAt: Date;
 };

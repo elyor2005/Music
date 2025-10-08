@@ -1,40 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Toolbar from "@/components/Toolbar";
-import SongsContainer from "@/components/SongsContainer";
+import { useEffect, useState } from "react";
+import Toolbar from "./Toolbar";
+import SongsContainer from "./SongsContainer";
+
+function generateRandomSeed() {
+  return Math.random().toString(36).substring(2, 10);
+}
 
 export default function MainPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const params = useSearchParams();
 
-  const [params, setParams] = useState(() => ({
-    seed: searchParams.get("seed") || "123",
-    lang: searchParams.get("lang") || "en",
-    count: parseInt(searchParams.get("count") || "50", 10),
-    likes: parseFloat(searchParams.get("likes") || "5"),
-    view: (searchParams.get("view") as "table" | "gallery") || "table",
-  }));
+  const [seed, setSeed] = useState(params.get("seed") || generateRandomSeed());
+  const [lang, setLang] = useState(params.get("lang") || "en");
+  const [likes, setLikes] = useState(Number(params.get("likes")) || 0);
+  const [view, setView] = useState<"table" | "gallery">((params.get("view") as "table" | "gallery") || "table");
+
+  // keep query string in sync
+  useEffect(() => {
+    const search = new URLSearchParams({
+      seed,
+      lang,
+      likes: likes.toString(),
+      view,
+    });
+    router.replace("?" + search.toString());
+  }, [seed, lang, likes, view, router]);
 
   return (
     <div className="p-6 space-y-6">
-      <Toolbar
-        params={params}
-        onChange={(newParams) => {
-          setParams((prev) => ({ ...prev, ...newParams }));
-          const query = new URLSearchParams({
-            seed: newParams.seed,
-            lang: newParams.lang,
-            count: newParams.count.toString(),
-            likes: newParams.likes.toString(),
-            view: newParams.view,
-          });
-          router.replace("?" + query.toString());
-        }}
-      />
-
-      <SongsContainer seed={params.seed} lang={params.lang} count={params.count} likes={params.likes} view={params.view} />
+      <Toolbar seed={seed} onSeedChange={setSeed} onSeedReset={() => setSeed(generateRandomSeed())} lang={lang} onLangChange={setLang} likes={likes} onLikesChange={setLikes} view={view} onViewChange={setView} />
+      <SongsContainer seed={seed} lang={lang} likes={likes} view={view} />
     </div>
   );
 }
