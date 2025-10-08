@@ -45,7 +45,7 @@ export default function SongsTable({ seed, lang, likes }: Props) {
       <table className="w-full h-dvh border-collapse border border-gray-200 ">
         <thead>
           <tr className="bg-gray-200 text-black">
-            <th className="p-2 text-left">#</th>
+            <th className="p-2 text-left">№</th>
             <th className="p-2 text-left">Title</th>
             <th className="p-2 text-left">Artist</th>
             <th className="p-2 text-left">Album</th>
@@ -55,10 +55,10 @@ export default function SongsTable({ seed, lang, likes }: Props) {
         </thead>
         <tbody>
           {songs.length > 0 ? (
-            songs.map((song) => (
+            songs.map((song, idx) => (
               <Fragment key={song.id}>
                 <tr className="cursor-pointer hover:bg-gray-100 hover:text-black" onClick={() => toggleExpand(song.id)}>
-                  <td className="p-2">{song.id}</td>
+                  <td className="p-2">{(page - 1) * 10 + (idx + 1)}</td>
                   <td className="p-2">{song.title}</td>
                   <td className="p-2">{song.artist}</td>
                   <td className="p-2">{song.album}</td>
